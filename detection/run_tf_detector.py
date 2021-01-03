@@ -145,7 +145,7 @@ class TFDetector:
         """Loads model from model_path and starts a tf.Session with this graph. Obtains
         input and output tensor handles."""
         detection_graph = TFDetector.__load_model(model_path)
-        self.tf_session = tf.Session(graph=detection_graph)
+        self.tf_session = tf.compat.v1.Session(graph=detection_graph)
 
         self.image_tensor = detection_graph.get_tensor_by_name('image_tensor:0')
         self.box_tensor = detection_graph.get_tensor_by_name('detection_boxes:0')
@@ -206,7 +206,7 @@ class TFDetector:
         print('TFDetector: Loading graph...')
         detection_graph = tf.Graph()
         with detection_graph.as_default():
-            od_graph_def = tf.GraphDef()
+            od_graph_def = tf.compat.v1.GraphDef()
             with tf.gfile.GFile(model_path, 'rb') as fid:
                 serialized_graph = fid.read()
                 od_graph_def.ParseFromString(serialized_graph)
